@@ -4,7 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday Shalu</title>
-    <link rel="stylesheet" href="/style.css">
+    <style>
+        body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ffcccc;
+    overflow: hidden;
+}
+
+#heart-container {
+    text-align: center;
+}
+
+#heart {
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    position: relative;
+    transform: rotate(-45deg);
+    cursor: pointer;
+    animation: beat 1s infinite;
+}
+
+#heart::before, #heart::after {
+    content: "";
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    border-radius: 50%;
+    position: absolute;
+}
+
+#heart::before {
+    top: -50px;
+    left: 0;
+}
+
+#heart::after {
+    left: 50px;
+    top: 0;
+}
+
+@keyframes beat {
+    0%, 100% {
+        transform: scale(1) rotate(-45deg);
+    }
+    50% {
+        transform: scale(1.2) rotate(-45deg);
+    }
+}
+
+#wish-container {
+    text-align: center;
+}
+
+#wish-container h1 {
+    font-size: 3rem;
+    color: #fff;
+    animation: fadeIn 2s;
+}
+
+#wish-container button {
+    background-color: #ff6666;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+    </style>
 </head>
 <body>
     <div id="heart-container">
@@ -15,7 +95,41 @@
         <h1>Happy Birthday, Shalu!</h1>
         <button id="play-button">Play Sound</button>
     </div>
-    <audio id="birthday-audio" src="/01-Monk-Turner-Fascinoma-Its-Your-Birthday(chosic.com).mp3"></audio>
-    <script src="/script.js"></script>
+    <audio id="birthday-audio" src="01-Monk-Turner-Fascinoma-Its-Your-Birthday(chosic.com).mp3"></audio>
+    <script >
+        document.getElementById('heart').addEventListener('click', function() {
+    document.body.style.backgroundImage = "url('360_F_627480792_wUT08pWzYACPcvLx6p61taKy4M71dOpS.jpg')";
+    document.getElementById('heart-container').style.display = 'none';
+    document.getElementById('wish-container').style.display = '';
+    startCountdown();
+});
+
+document.getElementById('play-button').addEventListener('click', function() {
+    document.getElementById('birthday-audio').play();
+});
+
+function startCountdown() {
+    const targetDate = new Date("August 19, 2024 00:00:00").getTime();
+    const countdownElement = document.getElementById('countdown');
+    
+    const interval = setInterval(function() {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+        if (distance < 0) {
+            clearInterval(interval);
+            countdownElement.innerHTML = "It's your birthday!";
+        }
+    }, 1000);
+}
+
+    </script>
 </body>
 </html>
